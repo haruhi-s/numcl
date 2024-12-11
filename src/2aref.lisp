@@ -231,8 +231,11 @@ SINGLETON   Differentiates the index (2 3) (== python [2:3]) and 2
                        The tails of the subscripts do not match; broadcasting failed."
                   range-shape
                   value-shape)
-          (%aset-replace newvar value-shape array subscripts))
-        (%aset-fill (%coerce newvar type) array subscripts))))
+          (%aset-replace newvar value-shape array subscripts)
+          newvar)
+        (let ((newvar (%coerce newvar type)))
+          (%aset-fill newvar array subscripts)
+          newvar))))
 
 (defun %aset-fill (newvar array subscripts)
   (ematch subscripts
